@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "deepmerge": "^4.2.2",
     "effector": "^20.15.0",
     "effector-next": "1.0.0-alpha.3",
     "effector-react": "^20.7.2",

@@ -1,15 +1,31 @@
 import React from "react";
-import { useStore, useEvent } from "effector-react";
+import { useStore, useEvent } from "effector-react/ssr";
 import { withStart } from "effector-next";
 import Link from "next/link";
-import { $data, pageLoaded, buttonClicked } from "../models";
+import { $data, pageLoaded, buttonClicked } from "models";
 // notifications stuff
 import { $store, addNotify } from 'models/notification';
-import { Notification, NotificationsControl } from '../components/notification-control';
+import { Notification, NotificationsControl } from 'components/notification-control';
+import { getCommonServerSideProps } from 'utils/page/ssr';
 
-const enhance = withStart(pageLoaded);
+const START_UNIT_KEY = "__EFFECTOR_START_UNIT__";
 
-function HomePage() {
+
+export const getServerSideProps = async (context) => {
+  const commonServerSideProps = await getCommonServerSideProps(context);
+  // Get some data from API (Graphql query, REST API)
+
+  return {
+    // Props returned here will be available as page properties (pageProps)
+    props: {
+      ...commonServerSideProps,
+      customProp: 1500,
+    },
+  };
+};
+
+
+function HomePage(props) {
   const data = useStore($data);
   const handleClick = useEvent(buttonClicked);
 
@@ -34,6 +50,8 @@ function HomePage() {
         <a href="/static">to static page</a>
       </Link>
 
+      <div>Custom prop: {props.customProp}</div>
+
       <button onClick={handleAddSuccessNotify} >Show notification</button>
 
       {/*container with all visible notifications*/}
@@ -42,4 +60,7 @@ function HomePage() {
   );
 }
 
-export default enhance(HomePage);
+// const enhance = withStart(pageLoaded);
+// export default enhance(HomePage);
+HomePage[START_UNIT_KEY] = pageLoaded;
+export default HomePage;

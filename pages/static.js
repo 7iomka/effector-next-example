@@ -2,7 +2,11 @@ import React from "react";
 import Link from "next/link";
 // notifications stuff
 import { addNotify } from 'models/notification';
-import { Notification, NotificationsControl } from '../components/notification-control';
+import { Notification, NotificationsControl } from 'components/notification-control';
+import { getCommonStaticPaths, getCommonStaticProps } from 'utils/page/ssg';
+
+export const getStaticProps = getCommonStaticProps;
+export const getStaticPaths = getCommonStaticPaths;
 
 export default function StaticOptimizedPage() {
   // add notification to store
