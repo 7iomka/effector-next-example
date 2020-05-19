@@ -1,5 +1,5 @@
 import React from 'react';
-import { createComponent } from 'effector-react';
+import { createComponent, useStore } from 'effector-react';
 import { $store, rmNotify } from 'models/notification';
 
 
@@ -11,14 +11,27 @@ export const Notification = ({ children, theme = 'success' }) => {
   return <div className={`notification notification--${theme}`}>{children}</div>;
 };
 
-export const NotificationsControl = createComponent($store, (_, state) => {
+export const NotificationsControl = () => {
+  const store = useStore($store);
   return (
     <NotificationList>
-       {state.notifications.map((notify) => (
+      {store.notifications.map((notify) => (
         <div role="button" tabIndex={0} key={notify.uuid} onClick={() => rmNotify(notify.uuid)}>
           {notify.element}
         </div>
-       ))}
+      ))}
     </NotificationList>
   );
-});
+};
+
+// export const NotificationsControl = createComponent($store, (_, state) => {
+//   return (
+//     <NotificationList>
+//        {state.notifications.map((notify) => (
+//         <div role="button" tabIndex={0} key={notify.uuid} onClick={() => rmNotify(notify.uuid)}>
+//           {notify.element}
+//         </div>
+//        ))}
+//     </NotificationList>
+//   );
+// });

@@ -9,7 +9,7 @@ export const rmNotify = EventDomain.event();
 const initialState = {
   notifications: [],
   timeoutTransition: 400,
-  timeoutNotifications: 25000,
+  timeoutNotifications: 5000,
   loadinguiid: uuidv4(),
 };
 
